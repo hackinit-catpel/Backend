@@ -1,10 +1,10 @@
 # Backend of CATPEL
 
 
-#APIS
+# APIS
 
 ***
-#注册
+# 注册
 |URL|Header|Method|
 | :--- | :-- | :-- |
 |/api/v1.0/signup/ |无| POST|
@@ -96,8 +96,8 @@ id: 用户ID
 }
 ```
 
-#获得宠物信息：
-###因为只在宠物这里需要获得时间，便没写获得时间的API
+# 获得宠物信息：
+### 因为只在宠物这里需要获得时间，便没写获得时间的API
 |URL|Header|Method|
 | :--- | :-- | :-- |
 |/api/v1.0/getinfo/<int:id> |无| GET|
