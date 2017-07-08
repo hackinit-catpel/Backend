@@ -25,6 +25,41 @@ class User(db.Model,UserMixin):
     time = db.Column(db.Float)
     forgive_time = db.Column(db.Integer,default=5)
     
+    @property
+    def password(self):
+        raise AttributeError('password is not readable')
+
+    @password.setter
+    def password(self,password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self,password):
+        return check_password_hash(self.password_hash,password)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'],expiration)
+        return s.dumps({'confirm': self.id})
+    
+    def generate_auth_token(self):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'id': self.id})
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return User.query.get(data['id'])
+
+    def __repr__(self):
+        return "<User %r>" % self.username
+
 
 class AnonymousUser(AnonymousUserMixin):
     """ anonymous user """
@@ -32,3 +67,6 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 login_manager.anonymous_user = AnonymousUser
+
+
+
