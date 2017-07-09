@@ -23,7 +23,14 @@ class User(db.Model,UserMixin):
     password_hash = db.Column(db.String(164))
     time = db.Column(db.Float)
     forgive_time = db.Column(db.Integer,default=5)
+    bind_id = db.Column(db.Integer)
     
+    def set_bind_id(self,the_id):
+        self.bind_id = the_id
+
+    def settime(self,time):
+        self.time=time
+
     @property
     def password(self):
         raise AttributeError('password is not readable')

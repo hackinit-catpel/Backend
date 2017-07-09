@@ -10,7 +10,8 @@ def signup():
 
         un = request.get_json().get('username')
         passwd = request.get_json().get('password')
-        
+        b_id = request.get_json().get('bind_id')
+
         user = User.query.filter_by(username=un).first()
 
         if user:
@@ -19,6 +20,7 @@ def signup():
         new_user = User(
                         username=un,
                         password=passwd,
+                        bind_id=b_id,
                         time=0
                        )
         
