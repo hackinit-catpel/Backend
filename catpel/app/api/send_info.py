@@ -26,14 +26,14 @@ def send_info():
         if os.path.isfile("Message/"+str(the_id)+"message"):
             pass
         else:
-            os.mknod("Message/"+str(the_id)+"message")
+            os.mknod("Message/"+str(the_id)+"/message")
 
-        mess_file = open("Message/"+str(the_id)+"message","w")
+        mess_file = open("Message/"+str(the_id)+"/message","w")
         mess_file.writelines(
             [
                 "message:" + info +"\n",
-                "bind_id:" + my_id + "\n",
-                "havent"
+                "bind_id:" + str(my_id) + "\n",
+                "haventsend"
             ]
         )
 

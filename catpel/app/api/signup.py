@@ -10,7 +10,15 @@ def signup():
 
         un = request.get_json().get('username')
         passwd = request.get_json().get('password')
-        b_id = request.get_json().get('bind_id')
+        b_name = request.get_json().get('bind_name')
+
+        userbind = User.query.filter_by(username=b_name).first()
+        if not userbind:
+            return jsonify({}),400
+        else:
+            b_id = userbind.id
+
+
 
         user = User.query.filter_by(username=un).first()
 
