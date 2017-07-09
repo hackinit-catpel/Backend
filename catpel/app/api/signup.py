@@ -11,11 +11,13 @@ def signup():
         un = request.get_json().get('username')
         passwd = request.get_json().get('password')
         b_name = request.get_json().get('bind_name')
-
-        userbind = User.query.filter_by(username=b_name).first()
-        if not userbind:
-            return jsonify({}),400
+        
+        if b_name =="":
+            b_name = None
         else:
+            userbind = User.query.filter_by(username=b_name).first()
+            if not userbind:
+                return jsonify({}),400
             b_id = userbind.id
 
 
@@ -24,8 +26,15 @@ def signup():
 
         if user:
             return jsonify({}), 400
-    
-        new_user = User(
+        if b_name == None:
+            new_user = User(
+                        username=un,
+                        password=passwd,
+                        bind_id=None,
+                        time=0
+                       )
+        else:
+            new_user = User(
                         username=un,
                         password=passwd,
                         bind_id=b_id,

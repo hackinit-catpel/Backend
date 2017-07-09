@@ -11,25 +11,28 @@ def send_info():
         my_id = int(request.get_json().get('my_id'))
         user = User.query.filter_by(id=my_id).first()
         the_id = user.bind_id
-        info = str(request.get_json().get('info'))
+        info = str(my_id) + "EXIT"
 
         if os.path.isdir("Message"):
             pass
         else:
             os.mkdir("Message")
-
-        if os.path.isdir("Message/"+str(the_id)):
-            pass
+        if the_id == None:
+            return jsonify({ }),400
         else:
-            os.mkdir("Message/"+str(the_id))
+            if os.path.isdir("Message/"+str(the_id)):
+                pass
+            else:
+                os.mkdir("Message/"+str(the_id))
 
-        if os.path.isfile("Message/"+str(the_id)+"message"):
-            pass
-        else:
-            os.mknod("Message/"+str(the_id)+"/message")
+            if os.path.isfile("Message/"+str(the_id)+"message"):
+                pass
+            else:
+                os.mknod("Message/"+str(the_id)+"/message")
 
-        mess_file = open("Message/"+str(the_id)+"/message","w")
-        mess_file.writelines(
+            mess_file = open("Message/"+str(the_id)+"/message","w")
+            
+            mess_file.writelines(
             [
                 "message:" + info +"\n",
                 "bind_id:" + str(my_id) + "\n",
@@ -37,6 +40,6 @@ def send_info():
             ]
         )
 
-        return jsonify({
-            "status":200
-        })
+            return jsonify({
+                "status":200
+            })
